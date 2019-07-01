@@ -31,3 +31,27 @@
     transform: rotate(360deg);
   }
 }
+
+.content {
+  overflow: auto;
+  position: relative;
+}
+.content:before {
+  content: "";
+  position: fixed;
+  top: -5%;
+  left: -5%;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+
+  display: block;
+  background-image: url("./pic/spacex.jpg");
+  background-size: cover;
+
+  -webkit-filter: blur(1px);
+  -moz-filter: blur(1px);
+  -o-filter: blur(1px);
+  -ms-filter: blur(1px);
+  filter: blur(1px);
+}
