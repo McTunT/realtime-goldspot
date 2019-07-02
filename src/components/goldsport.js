@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 //import { FormattedNumber } from "react-intl";
+import axios from "axios";
 
 export const useFetchs = (url, options) => {
   const [G965B, setG965B] = useState(null);
@@ -8,9 +9,8 @@ export const useFetchs = (url, options) => {
   useEffect(() => {
     const FetchData = async () => {
       try {
-        const res = await fetch(url, options);
-        const json = await res.json();
-        setG965B(json);
+        const res = await axios(url, options);
+        setG965B(res.data.G965B);
       } catch (error) {
         setError(error);
       }
