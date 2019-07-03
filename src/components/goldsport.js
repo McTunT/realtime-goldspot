@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-//import { FormattedNumber } from "react-intl";
 import axios from "axios";
 
 export const useFetchs = (url, options) => {
@@ -16,6 +15,10 @@ export const useFetchs = (url, options) => {
       }
     };
     FetchData();
-  }, [options, url]);
+    const id = setInterval(() => {
+      setG965B(G965B);
+    }, 3000);
+    return () => clearInterval(id);
+  }, [G965B, options, url]);
   return { G965B, error };
 };
