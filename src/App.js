@@ -7,6 +7,7 @@ import moment from "moment";
 import { BoxSpot } from "./components/Box";
 import { Flex, Text } from "rebass";
 
+import { TextSpot } from "./components/Textspot";
 import "moment-timezone";
 import "moment/locale/th";
 
@@ -26,11 +27,10 @@ const App = () => {
   const Bangkok = moment.tz(DateTime, "Asia/Bangkok");
   const TimeDate = Bangkok.format("D MMMM YYYY");
 
-  const bid = res.G965B.bid_asso;
-  const offer = res.G965B.offer_asso;
+  const bid = res.G965B.bid;
+  const offer = res.G965B.offer;
 
-  let bid500 = 500;
-  let bid_jiwelry = bid + bid500;
+  let bid_jiwelry = bid + 500;
   const offer_jiwelry = offer * 0.95;
 
   const interest = (bid_jiwelry * 2) / 100;
@@ -48,13 +48,16 @@ const App = () => {
         ราคาเปลี่ยนแปลง &nbsp;&nbsp;เวลา&nbsp;
         {TimesServer}
       </Text>
+      <TextSpot fontSize={[3, 4, 5]} fontWeight="bold" color="gold">
+        ขายออก
+      </TextSpot>
       <Flex alignItems="flex-end" justifyContent="flex-end">
         <BoxSpot
           width={[1, 1 / 2, 1 / 4]}
           m={[1, 2, 3, 4]}
           color="gold"
           bg="white"
-          fontSize={[70, 80, 90, 100]}
+          fontSize={[70, 80, 90, 95]}
         >
           <FormattedNumber value={bid} />
         </BoxSpot>
@@ -63,18 +66,19 @@ const App = () => {
           m={[1, 2, 3, 4]}
           color="gold"
           bg="white"
-          fontSize={[70, 80, 90, 100]}
+          fontSize={[70, 80, 90, 95]}
         >
           <FormattedNumber value={offer} />
         </BoxSpot>
       </Flex>
+
       <Flex alignItems="flex-end" justifyContent="flex-end">
         <BoxSpot
           width={[1, 1 / 2, 1 / 4]}
           m={[1, 2, 3, 4]}
           color="gold"
           bg="white"
-          fontSize={[70, 80, 90, 100]}
+          fontSize={[70, 80, 90, 95]}
         >
           <FormattedNumber value={bid_jiwelry} />
         </BoxSpot>
@@ -83,7 +87,7 @@ const App = () => {
           m={[1, 2, 3, 4]}
           color="gold"
           bg="white"
-          fontSize={[70, 80, 90, 100]}
+          fontSize={[70, 80, 90, 95]}
         >
           <FormattedNumber value={offer_jiwelry.toFixed()} />
         </BoxSpot>
@@ -94,7 +98,7 @@ const App = () => {
           m={[1, 2, 3, 4]}
           color="gold"
           bg="white"
-          fontSize={[70, 80, 90, 100]}
+          fontSize={[70, 80, 90, 95]}
         >
           <FormattedNumber value={interest.toFixed()} />
         </BoxSpot>
@@ -103,7 +107,7 @@ const App = () => {
           m={[1, 2, 3, 4]}
           color="gold"
           bg="white"
-          fontSize={[70, 80, 90, 100]}
+          fontSize={[70, 80, 90, 95]}
         >
           <FormattedNumber value={interest_offer.toFixed()} />
         </BoxSpot>
