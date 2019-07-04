@@ -5,9 +5,8 @@ import { useFetchs } from "./components/Goldsport";
 import { FormattedNumber } from "react-intl";
 import moment from "moment";
 import { BoxSpot } from "./components/Box";
-import { Flex, Text } from "rebass";
+import { Flex, Box } from "rebass";
 
-import { TextSpot } from "./components/Textspot";
 import "moment-timezone";
 import "moment/locale/th";
 
@@ -27,91 +26,105 @@ const App = () => {
   const Bangkok = moment.tz(DateTime, "Asia/Bangkok");
   const TimeDate = Bangkok.format("D MMMM YYYY");
 
-  const bid = res.G965B.bid;
-  const offer = res.G965B.offer;
+  const bid = res.G965B.bid_asso;
+  const offer = res.G965B.offer_asso;
 
-  let bid_jiwelry = bid + 500;
+  const bid_jiwelry = bid => {
+    let output = "";
+    output = +bid + 500;
+    return output;
+  };
+
   const offer_jiwelry = offer * 0.95;
-
-  const interest = (bid_jiwelry * 2) / 100;
   const interest_offer = offer_jiwelry - 1000;
 
   return (
     <div className="content" style={{ color: "#FFF" }}>
-      <Text fontSize={[4, 5, 6]} fontWeight="bold" color="white">
-        ราคาทองคำ
-      </Text>
-      <Text fontSize={[3, 4, 5]} fontWeight="bold" color="black">
-        ประจำวันที่&nbsp; {TimeDate}
-      </Text>
-      <Text fontSize={[3, 4, 5]} fontWeight="bold" color="black">
-        ราคาเปลี่ยนแปลง &nbsp;&nbsp;เวลา&nbsp;
-        {TimesServer}
-      </Text>
-      <TextSpot fontSize={[3, 4, 5]} fontWeight="bold" color="gold">
-        ขายออก
-      </TextSpot>
-      <Flex alignItems="flex-end" justifyContent="flex-end">
-        <BoxSpot
-          width={[1, 1 / 2, 1 / 4]}
-          m={[1, 2, 3, 4]}
-          color="gold"
-          bg="white"
-          fontSize={[70, 80, 90, 95]}
-        >
-          <FormattedNumber value={bid} />
-        </BoxSpot>
-        <BoxSpot
-          width={[1, 1 / 2, 1 / 4]}
-          m={[1, 2, 3, 4]}
-          color="gold"
-          bg="white"
-          fontSize={[70, 80, 90, 95]}
-        >
-          <FormattedNumber value={offer} />
-        </BoxSpot>
-      </Flex>
+      <Box mr={[140]} mt={[137]}>
+        <Flex justifyContent="flex-end">
+          <div
+            style={{ fontSize: "47px", fontWeight: "bold", color: "#201F26" }}
+          >
+            {TimeDate}
+          </div>
+        </Flex>
+        <Flex justifyContent="flex-end">
+          <div
+            style={{
+              fontSize: "47px",
+              fontWeight: "bold",
+              color: "#201F26"
+            }}
+          >
+            เวลา&nbsp;
+            {TimesServer}
+          </div>
+        </Flex>
+      </Box>
+      <Box mr={[85]} mt={[75]}>
+        <Flex alignItems="flex-end" justifyContent="flex-end">
+          <BoxSpot
+            width={[1, 1 / 2, 1 / 4]}
+            mr={[82]}
+            mt={[1, 2]}
+            color="#cea931"
+            fontSize={[90]}
+          >
+            <FormattedNumber value={bid} />
+          </BoxSpot>
+          <BoxSpot
+            width={[1, 1 / 2, 1 / 4]}
+            mr={[28]}
+            mt={[1, 2]}
+            color="#cea931"
+            fontSize={[90]}
+          >
+            <FormattedNumber value={offer} />
+          </BoxSpot>
+        </Flex>
 
-      <Flex alignItems="flex-end" justifyContent="flex-end">
-        <BoxSpot
-          width={[1, 1 / 2, 1 / 4]}
-          m={[1, 2, 3, 4]}
-          color="gold"
-          bg="white"
-          fontSize={[70, 80, 90, 95]}
-        >
-          <FormattedNumber value={bid_jiwelry} />
-        </BoxSpot>
-        <BoxSpot
-          width={[1, 1 / 2, 1 / 4]}
-          m={[1, 2, 3, 4]}
-          color="gold"
-          bg="white"
-          fontSize={[70, 80, 90, 95]}
-        >
-          <FormattedNumber value={offer_jiwelry.toFixed()} />
-        </BoxSpot>
-      </Flex>
-      <Flex alignItems="flex-end" justifyContent="flex-end">
-        <BoxSpot
-          width={[1, 1 / 2, 1 / 4]}
-          m={[1, 2, 3, 4]}
-          color="gold"
-          bg="white"
-          fontSize={[70, 80, 90, 95]}
-        >
-          <FormattedNumber value={interest.toFixed()} />
-        </BoxSpot>
-        <BoxSpot
-          width={[1, 1 / 2, 1 / 4]}
-          m={[1, 2, 3, 4]}
-          color="gold"
-          bg="white"
-          fontSize={[70, 80, 90, 95]}
-        >
-          <FormattedNumber value={interest_offer.toFixed()} />
-        </BoxSpot>
-      </Flex>
+        <Flex alignItems="flex-end" justifyContent="flex-end">
+          <BoxSpot
+            width={[1, 1 / 2, 1 / 4]}
+            mr={[82]}
+            mt={[1, 2]}
+            color="#cea931"
+            fontSize={[90]}
+          >
+            <FormattedNumber value={bid_jiwelry(bid)} />
+          </BoxSpot>
+          <BoxSpot
+            width={[1, 1 / 2, 1 / 4]}
+            mt={[30]}
+            mr={[28]}
+            color="#cea931"
+            fontSize={[90]}
+          >
+            <FormattedNumber value={offer_jiwelry.toFixed()} />
+          </BoxSpot>
+        </Flex>
+
+        <Flex alignItems="flex-end" justifyContent="flex-end">
+          <BoxSpot
+            width={[1, 1 / 2, 1 / 4]}
+            mr={[85]}
+            mt={[1, 2]}
+            color="#cea931"
+            fontSize={[90]}
+          >
+            2%
+          </BoxSpot>
+          <BoxSpot
+            width={[1, 1 / 2, 1 / 4]}
+            mt={[40]}
+            mr={[28]}
+            color="#cea931"
+            fontSize={[90]}
+          >
+            <FormattedNumber value={interest_offer.toFixed()} />
+          </BoxSpot>
+        </Flex>
+      </Box>
     </div>
   );
 };
