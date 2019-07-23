@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FormattedNumber } from "react-intl";
 import { Link } from "react-router-dom";
 import { Tooltip } from "react-tippy";
 import { Flex, Box } from "rebass";
-
 import NumberFormat from "react-number-format";
+import axios from "axios";
 import moment from "moment";
 
-import { useFetchs } from "./Goldsport";
 import { ButtonLink } from "./ฺButton";
 import { BoxSpot } from "./Box";
 
@@ -18,35 +17,40 @@ moment.locale("th");
 
 const GoldAssociation = () => {
   const [count, setCount] = useState("1");
-
-  const res = useFetchs("http://27.254.77.78/rest/public/rest/goldspot");
-
-  if (!res.G965B) {
-    return <div style={{ textAlign: "center" }}>Loading...</div>;
-  }
+  const [G965B, setG965B] = useState("");
+  const [offer, setOffer] = useState("");
+  const [jiwelryBid, setJiwelryBid] = useState("");
+  const [jiwelryOffer, setJiwelryOffer] = useState("");
+  const [interestOffer, setInterestOffer] = useState("");
+  const [time, setTime] = useState("");
+  const [timeDate, setTimeDate] = useState("");
 
   const countHandleChange = event => {
     setCount(event.target.value);
   };
 
-  const Times = res.G965B.time;
-  const TimesServer = Times.slice(10, 16);
+  useEffect(() => {
+    const FetchData = async () => {
+      const res = await axios("http://27.254.77.78/rest/public/rest/goldspot");
+      setG965B(res.data.G965B.bid_asso);
+      setOffer(res.data.G965B.offer_asso);
+      setJiwelryBid(+G965B + 500);
+      setJiwelryOffer((offer * 0.95).toFixed());
+      setTime(res.data.G965B.time.slice(10, 16));
+      setTimeDate(res.data.G965B.time.slice(0, 10));
+      setInterestOffer(jiwelryOffer - 1000);
+      console.log(`bid ${res.data.G965B.bid_asso}`);
+      console.log(`offer ${res.data.G965B.offer_asso}`);
+    };
+    FetchData();
+    const id = setInterval(() => {
+      FetchData();
+    }, 3000);
+    return () => clearInterval(id);
+  }, [G965B, jiwelryOffer, offer, timeDate]);
 
-  const DateTime = Times.slice(0, 10);
-  const Bangkok = moment.tz(DateTime, "Asia/Bangkok");
+  const Bangkok = moment.tz(timeDate, "Asia/Bangkok");
   const TimeDate = Bangkok.format("D MMMM YYYY");
-
-  const bid = res.G965B.bid_asso;
-  const offer = res.G965B.offer_asso;
-
-  const bid_jiwelry = bid => {
-    let output = "";
-    output = +bid + 500;
-    return output;
-  };
-
-  const offer_jiwelry = offer * 0.95;
-  const interest_offer = offer_jiwelry - 1000;
 
   return (
     <div style={{ color: "#FFF" }}>
@@ -76,8 +80,7 @@ const GoldAssociation = () => {
               fontWeight: "500"
             }}
           >
-            เวลา&nbsp;
-            {TimesServer} น.
+            เวลา&nbsp; {time} น
           </div>
         </Flex>
       </Box>
@@ -90,7 +93,7 @@ const GoldAssociation = () => {
             color="#cea931"
             fontSize={[90]}
           >
-            <FormattedNumber value={bid} />
+            <FormattedNumber value={G965B} />
           </BoxSpot>
           <BoxSpot
             width={[1, 1 / 2, 1 / 4]}
@@ -111,7 +114,7 @@ const GoldAssociation = () => {
             color="#cea931"
             fontSize={[90]}
           >
-            <FormattedNumber value={bid_jiwelry(bid)} />
+            <FormattedNumber value={jiwelryBid} />
           </BoxSpot>
           <BoxSpot
             width={[1, 1 / 2, 1 / 4]}
@@ -120,7 +123,7 @@ const GoldAssociation = () => {
             color="#cea931"
             fontSize={[90]}
           >
-            <FormattedNumber value={offer_jiwelry.toFixed()} />
+            <FormattedNumber value={jiwelryOffer} />
           </BoxSpot>
         </Flex>
 
@@ -141,7 +144,7 @@ const GoldAssociation = () => {
             color="#cea931"
             fontSize={[90]}
           >
-            <FormattedNumber value={interest_offer.toFixed()} />
+            <FormattedNumber value={interestOffer} />
           </BoxSpot>
         </Flex>
       </Box>
