@@ -31,7 +31,7 @@ const GoldAssociation = () => {
 
   useEffect(() => {
     const FetchData = async () => {
-      const res = await axios("http://27.254.77.78/rest/public/rest/goldspot");
+      const res = await axios(`/rest/public/rest/goldspot`);
       setG965B(res.data.G965B.bid_asso);
       setOffer(res.data.G965B.offer_asso);
       setJiwelryBid(+G965B + 500);
@@ -39,8 +39,8 @@ const GoldAssociation = () => {
       setTime(res.data.G965B.time.slice(10, 16));
       setTimeDate(res.data.G965B.time.slice(0, 10));
       setInterestOffer(jiwelryOffer - 1000);
-      console.log(`bid ${res.data.G965B.bid_asso}`);
-      console.log(`offer ${res.data.G965B.offer_asso}`);
+      //  console.log(`bid ${res.data.G965B.bid_asso}`);
+      //  console.log(`offer ${res.data.G965B.offer_asso}`);
     };
     FetchData();
     const id = setInterval(() => {
@@ -80,7 +80,7 @@ const GoldAssociation = () => {
               fontWeight: "500"
             }}
           >
-            เวลา&nbsp; {time} น
+            เวลา&nbsp; {time} น.
           </div>
         </Flex>
       </Box>
