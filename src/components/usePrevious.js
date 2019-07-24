@@ -1,0 +1,11 @@
+import React, { useRef, useEffect } from "react";
+
+export const usePrevious = value => {
+  const ref = useRef(value);
+  console.log("Value:" + value);
+
+  useEffect(() => {
+    ref.current = value;
+    console.log("vs");
+  });
+};

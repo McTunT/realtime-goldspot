@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { FormattedNumber } from "react-intl";
-import { Link } from "react-router-dom";
-import { Tooltip } from "react-tippy";
 import { Flex, Box } from "rebass";
 
 import { Number } from "./NumberFormat";
-import { ButtonLink } from "./ฺButton";
+import { RouteLink } from "./RouteLink";
 import { BoxSpot } from "./Box";
 
 import Time from "./DateTime";
@@ -47,16 +45,7 @@ const HumanInput = () => {
 
   return (
     <div>
-      <Link to="/association">
-        <Tooltip
-          size="big"
-          theme="light"
-          html={<strong>ราคาทองสมาคมค้าทองคำ Ausiris</strong>}
-        >
-          <ButtonLink />
-        </Tooltip>
-      </Link>
-
+      <RouteLink to="/association" html="ราคาทองสมาคมค้าทองคำ Ausiris" />
       <Time value={count} handleChange={countHandleChange} />
       <Box mr={[85]} mt={[79]}>
         <Flex alignItems="flex-end" justifyContent="flex-end">

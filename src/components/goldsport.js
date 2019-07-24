@@ -1,20 +1,44 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { Spot_API } from "./Constants";
+import { labeledStatement } from "@babel/types";
 
-export const useFetchs = () => {
-  const [G965B, setG965B] = useState(null);
+export const Spot = () => {
+  const [G965b, setG965b] = useState("");
+  const [value, setvalue] = useState("");
 
   useEffect(() => {
-    const FetchData = async () => {
-      const res = await axios("http://27.254.77.78/rest/public/rest/goldspot");
-      setG965B(res.data.G965B.bid);
-      console.log(`data ${res.data.G965B.bid}`);
+    const Token = axios.CancelToken;
+    const source = Token.source();
+
+    const loaddata = () => {
+      try {
+        axios.get(Spot_API, { cancelToken: source.token }).then(data => {
+          setG965b(data.data.G965B.bid);
+        });
+      } catch (error) {
+        if (axios.isCancel(error)) {
+          console.log("cancelled");
+        } else {
+          throw error;
+        }
+      }
     };
-    FetchData();
+
+    loaddata();
     const id = setInterval(() => {
-      setG965B();
+      loaddata();
     }, 3000);
-    return () => clearInterval(id);
-  }, [G965B]);
-  return { G965B };
+
+    return () => {
+      source.cancel();
+      clearInterval(id);
+    };
+  }, []);
+
+  return (
+    <div>
+      <h1>{G965b}</h1>
+    </div>
+  );
 };
