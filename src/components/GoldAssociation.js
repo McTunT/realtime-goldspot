@@ -22,6 +22,7 @@ const GoldAssociation = () => {
   const [interestOffer, setInterestOffer] = useState("");
   const [time, setTime] = useState("");
   const [timeDate, setTimeDate] = useState("");
+  const [isError, setIsError] = useState(false);
 
   const countHandleChange = event => {
     setCount(event.target.value);
@@ -33,6 +34,7 @@ const GoldAssociation = () => {
     const source = CancelToken.source();
 
     const FetchData = async () => {
+      setIsError(false);
       try {
         axios.get(Spot_API, { cancelToken: source.CancelToken }).then(res => {
           setG965B(res.data.G965B.bid_asso);
@@ -42,29 +44,26 @@ const GoldAssociation = () => {
           setTime(res.data.G965B.time.slice(10, 16));
           setTimeDate(res.data.G965B.time.slice(0, 10));
           setInterestOffer(jiwelryOffer - 1000);
-          //  console.log(`bid ${res.data.G965B.bid_asso}`);
-          //  console.log(`offer ${res.data.G965B.offer_asso}`);
         });
       } catch (error) {
         if (axios.isCancel(error)) {
           console.log("cancelled");
+          setIsError(error);
         } else {
           throw error;
         }
       }
     };
 
-    FetchData();
     const id = setInterval(() => {
       FetchData();
     }, 3000);
 
     intervalRef.current = id;
-
     return () => {
+      clearInterval(intervalRef.current);
       console.log("unmount");
       source.cancel();
-      clearInterval(intervalRef.current);
     };
   }, [G965B, interestOffer, jiwelryOffer, offer, timeDate]);
 
@@ -72,11 +71,14 @@ const GoldAssociation = () => {
   const TimeDate = Bangkok.format("D MMMM YYYY");
 
   return (
-    <div style={{ color: "#FFF" }}>
-      <RouteLink to="/" html="ราคาทองสมาคมค้าทองคำกรอกเอง" />
+    <React.Fragment>
+      {isError && <div>Something went wrong ...</div>}
+      <RouteLink to="/association" html="ราคาทองสมาคมค้าทองคำกรอกเอง" />
       <Box mr={[140]} mt={[91]}>
         <Flex justifyContent="flex-end">
-          <div style={{ fontSize: "45px", fontWeight: "500" }}>{TimeDate}</div>
+          <div style={{ fontSize: "45px", fontWeight: "500", color: "#FFF" }}>
+            {TimeDate}
+          </div>
         </Flex>
         <Flex justifyContent="flex-end">
           <NumberFormat
@@ -87,7 +89,8 @@ const GoldAssociation = () => {
           <div
             style={{
               fontSize: "45px",
-              fontWeight: "500"
+              fontWeight: "500",
+              color: "#FFF"
             }}
           >
             เวลา&nbsp; {time} น.
@@ -158,7 +161,7 @@ const GoldAssociation = () => {
           </BoxSpot>
         </Flex>
       </Box>
-    </div>
+    </React.Fragment>
   );
 };
 

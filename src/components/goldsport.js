@@ -1,44 +1,42 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Spot_API } from "./Constants";
-import { labeledStatement } from "@babel/types";
 
 export const Spot = () => {
   const [G965b, setG965b] = useState("");
-  const [value, setvalue] = useState("");
+  const [isloding, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const Token = axios.CancelToken;
-    const source = Token.source();
-
-    const loaddata = () => {
+    const loaddata = async () => {
+      setIsLoading(true);
       try {
-        axios.get(Spot_API, { cancelToken: source.token }).then(data => {
-          setG965b(data.data.G965B.bid);
-        });
+        const result = await axios.get(Spot_API);
+        setG965b(result.data.G965B.bid_asso);
       } catch (error) {
-        if (axios.isCancel(error)) {
-          console.log("cancelled");
-        } else {
-          throw error;
-        }
+        console.log("Error", error);
       }
+      setIsLoading(false);
     };
-
     loaddata();
     const id = setInterval(() => {
       loaddata();
     }, 3000);
 
     return () => {
-      source.cancel();
       clearInterval(id);
     };
   }, []);
 
   return (
-    <div>
-      <h1>{G965b}</h1>
-    </div>
+    <React.Fragment>
+      {isloding ? (
+        <div>Loading Data Hook...</div>
+      ) : (
+        <div>
+          <h1>{G965b}</h1>
+          <h2>{G965b}</h2>
+        </div>
+      )}
+    </React.Fragment>
   );
 };

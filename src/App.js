@@ -24,8 +24,8 @@ const App = () => {
       <Fragment>
         <GlobalStyle />
         <div className="content">
-          <Route exact path="/" component={GoldSpot} />
-          <Route path="/association" component={GoldAssociation} />
+          <Route exact path="/" component={GoldAssociation} />
+          <Route path="/association" component={GoldSpot} />
         </div>
       </Fragment>
     </Router>

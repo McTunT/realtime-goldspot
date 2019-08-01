@@ -45,7 +45,7 @@ const HumanInput = () => {
 
   return (
     <div>
-      <RouteLink to="/association" html="ราคาทองสมาคมค้าทองคำ Ausiris" />
+      <RouteLink to="/" html="ราคาทองสมาคมค้าทองคำ Ausiris" />
       <Time value={count} handleChange={countHandleChange} />
       <Box mr={[85]} mt={[79]}>
         <Flex alignItems="flex-end" justifyContent="flex-end">

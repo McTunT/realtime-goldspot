@@ -50,7 +50,7 @@ export default class DateTime extends React.Component {
               value={this.props.value}
               onChange={this.props.handleChange}
             />
-            เวลา:&nbsp;
+            เวลา&nbsp;
             <Moment format="HH:mm  น.">{date}</Moment>
           </Flex>
         </Box>
