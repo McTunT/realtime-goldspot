@@ -1,1 +1,1 @@
-export const Spot_API = "/rest/public/rest/goldspot";
+export const Spot_API = "restApi";
