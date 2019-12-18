@@ -43,5 +43,5 @@
   "devDependencies": {
     "eslint-plugin-react-hooks": "^1.6.1"
   },
-  "proxy": "http://27.254.77.78"
+  "proxy": "to_address"
 }
